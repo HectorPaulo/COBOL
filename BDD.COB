@@ -1,0 +1,103 @@
+      ******************************************************************
+      * Author:HECTOR PAULO
+      * Date:05/02/2024
+      * Purpose:ENTENDER LAS BDD EN COBOL.
+      * Tectonics: cobc
+      ******************************************************************
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. BDD.
+       ENVIRONMENT DIVISION.
+       INPUT-OUTPUT SECTION.
+
+       FILE-CONTROL.
+       SELECT OPTIONAL EMPLEADOS-ARCHIVO
+       ASSIGN TO "C:\Users\H_A_P\OneDrive\Escritorio\EMPLEADOS.dat"
+       ORGANIZATION IS LINE SEQUENTIAL.
+
+       DATA DIVISION.
+       FILE SECTION.
+       FD EMPLEADOS-ARCHIVO.
+           01  EMPLEADOS-REGISTRO.
+               05 EMPLEADOS-ID PIC X(6).
+               05 EMPLEADOS-NOMBRE PIC X(25).
+               05 EMPLEADOS-APELLIDO PIC X(35).
+               05 EMPLEADOS-EDAD PIC X(3).
+               05 EMPLEADOS-TELEFONO PIC X(9).
+               05 EMPLEADOS-DIRECCION PIC X(35).
+
+       WORKING-STORAGE SECTION.
+       01  IDENTIFICADOR PIC X(36)
+               VALUE "INTRODUCE UN ID DEL NUEVO EMPLEADO: ".
+       01  NOMBRE PIC X(35)
+               VALUE "INTRODUCE EL NOMBRE DEL EMPLEADO: ".
+       01  APELLIDOS PIC X(25)
+               VALUE "INTRODUCE LOS APELLIDOS: ".
+       01  EDAD PIC X(39)
+               VALUE "INTRODUCE LA EDAD DEL EMPLEADO: ".
+       01  TELEFONO PIC X(50)
+               VALUE "INTRODUCE EL NUMERO DE TELEFONO: ".
+       01  DIRECCION PIC X(25)
+               VALUE "INTRODUCE LA DIRECCION: ".
+       01  SI-NO PIC X.
+       01  ENTRADA PIC X.
+
+       PROCEDURE DIVISION.
+       MAIN-LOGIC SECTION.
+       PROGRAM-BEGIN.
+
+       PERFORM PROCEDIMIENTO-DE-APERTURA.
+       MOVE "S" TO SI-NO.
+       PERFORM AGREGAR-REGISTROS
+       UNTIL SI-NO = "N".
+       PERFORM PROCEDIMIENTO-DE-CIERRE.
+
+       PROGRAM-DONE.
+
+            STOP RUN.
+
+       PROCEDIMIENTO-DE-APERTURA.
+            OPEN EXTEND EMPLEADOS-ARCHIVO.
+
+       PROCEDIMIENTO-DE-CIERRE.
+           CLOSE EMPLEADOS-ARCHIVO.
+
+       AGREGAR-REGISTROS.
+           MOVE "N" TO ENTRADA.
+           PERFORM OBTENER-CAMPOS
+           UNTIL ENTRADA = "S".
+           PERFORM ESCRIBIR-REGISTRO.
+           PERFORM REINICIAR.
+
+       OBTENER-CAMPOS.
+           MOVE SPACE TO EMPLEADOS-REGISTRO.
+           DISPLAY IDENTIFICADOR ": ".
+           ACCEPT EMPLEADOS-ID.
+           DISPLAY NOMBRE ": ".
+           ACCEPT EMPLEADOS-NOMBRE.
+           DISPLAY APELLIDOS ": ".
+           ACCEPT EMPLEADOS-APELLIDO.
+           DISPLAY EDAD ": ".
+           ACCEPT EMPLEADOS-EDAD.
+           DISPLAY TELEFONO ": ".
+           ACCEPT EMPLEADOS-TELEFONO.
+           DISPLAY DIRECCION ": ".
+           ACCEPT EMPLEADOS-DIRECCION.
+           PERFORM CONTINUAR.
+
+       CONTINUAR.
+           MOVE "S" TO ENTRADA.
+           IF EMPLEADOS-NOMBRE = SPACE
+           MOVE "N" TO ENTRADA.
+
+       ESCRIBIR-REGISTRO.
+           WRITE EMPLEADOS-REGISTRO.
+
+       REINICIAR.
+           DISPLAY "¿DESEA ALMACENAR OTRO REGISTRO EN LA BDD?".
+           ACCEPT SI-NO.
+           IF SI-NO = "S"
+               MOVE "S" TO SI-NO.
+               IF SI-NO NOT = "S"
+                   MOVE "N" TO SI-NO.
+
+       END PROGRAM BDD.

@@ -19,7 +19,7 @@
             DISPLAY "Introduzca otro numero: "
             ACCEPT n2.
             ADD n1 to n2 GIVING resultado.
-            DISPLAY "Su suma está siendo procesada".
+            DISPLAY "Su suma esta siendo procesada".
             DISPLAY "La suma es: " resultado.
             SUBTRACT n1 from n2 GIVING resultado.
             DISPLAY "La resta es: " resultado.

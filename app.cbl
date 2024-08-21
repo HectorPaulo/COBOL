@@ -3,7 +3,7 @@
 000300 PROGRAM-ID. CobolRocks.
 000400 DATA DIVISION.
                WORKING-STORAGE SECTION.    
-               01 WS-NAME PIC A(6) VALUE IS 'Jeff'.
+               01 WS-NAME PIC A(6) VALUE IS 'Paulo'.
 
            PROCEDURE DIVISION.
                DISPLAY "Hello : "WS-NAME.
